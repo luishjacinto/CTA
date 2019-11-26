@@ -1,0 +1,44 @@
+{% extends "layoutProjetos.jinja" %}
+
+{% block title %}
+<title>{{projeto.nome}} - Repositórios</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 visao-geral">
+            <h5>Repositórios:</h5>
+                    {% for repositorio in projeto.repositorios|reverse %}
+                    </tr>
+                    <div class="card">
+                        <div class="card-header" id="">
+                            <div class="flx">
+                                <a href="{{repositorio.link}}">{{ repositorio.nome }}</a>
+                                
+                            </div>
+                                
+                                <div class="text-left ">Publicado em: {{repositorio.data_publicacao}}</div>
+                                {% if repositorio.data_publicacao|string != repositorio.data_alteracao|string %}
+                                    <div class="text-left">Editado em: {{repositorio.data_alteracao}}</div>
+                                {% endif %}
+                                {% if  'user' in session and session['user']['id']|string == projeto.id_autor|string or 'user' in session and session['user']['id']|string == repositorio.id_usuario|string %}
+                                    <div class=" text-right">
+                                        <a data-toggle="tooltip" data-placement="top" title="Editar repositório" href="/editar_repositorio/{{projeto.nome}}/{{repositorio.id}}"><i class="large material-icons">edit</i></a>
+                                        <a data-toggle="tooltip" data-placement="top" title="Excluir repositório" href="/deletar_repositorio/{{projeto.nome}}/{{repositorio.id}}"><i class="large material-icons">close</i></a>
+                                    </div>
+                                {% endif%}
+                        </div>
+                    </div>
+                    {% endfor %}
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

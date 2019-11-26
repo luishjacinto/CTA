@@ -1,0 +1,182 @@
+<!doctype html>
+<head>
+	{% block title %}{% endblock %}
+	{% block styles %}{% endblock %}
+	{% include 'head.jinja' %}
+</head>
+<body>
+	{% include 'navbar.jinja' %}
+	{% if 'user' in session and 'logado' in session %}
+	<div class="text-right mb1em"><span class="logado">Logado com: {{session['user']['nome']}}{% if session['logado'] == 'administrador' %}
+		{{'(Administrador)'}}
+		{%else%}
+		{{'(Usuário)'}}
+		{% endif %}</span></div>
+	{% endif %}
+		{% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+				<div class="col-6 offset-3 pdtop">
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+					</div>
+				</div>
+                {% endfor %}
+            {% endif %}
+    {% endwith %}
+	<div class="container-fluid">
+
+		<h3 class="title-projeto">{{ projeto.nome }}</h3>
+		<div class="text-center">
+		<ul class="nav nav-projeto">
+			<li class="nav-item">
+				<a class="nav-link" href="/detalhes/{{projeto.nome}}">Visão Geral</a>
+			</li>
+			{% if 'user' in session and projeto.pertence == True %}
+
+			<li class="nav-item">
+				<div class="dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" id="dropArquivos" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">Arquivos</a>
+
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						<a class="dropdown-item" href="/criar_arquivo/{{projeto.id}}">Adicionar Arquivo</a>
+						{% if projeto.arquivos %}
+						<a class="dropdown-item"
+							href="/arquivos/{{projeto.nome}}">Visualizar({{projeto.arquivos|length}})</a>
+						{%else%}
+						<p class="text-center"><sub>Não há arquivos!</sub></p>
+						{% endif %}
+					</div>
+				</div>
+			</li>
+
+			<li class="nav-item">
+				<div class="dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" id="dropFotos" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">Fotos</a>
+
+					<div class="dropdown-menu" aria-labelledby="dropFotos">
+						<a class="dropdown-item" href="/criar_foto/{{projeto.id}}">Adicionar Foto</a>
+						{% if projeto.fotos %}
+						<a class="dropdown-item" href="/fotos/{{projeto.nome}}">Visualizar({{projeto.fotos|length}})</a>
+						{%else%}
+						<p class="text-center"><sub>Não há fotos!</sub></p>
+						{% endif %}
+					</div>
+				</div>
+			</li>
+
+			<li class="nav-item">
+				<div class="dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" id="dropNoticias" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">Notícias</a>
+
+					<div class="dropdown-menu" aria-labelledby="dropNoticias">
+						<a class="dropdown-item" href="/criar_noticia/{{projeto.id}}">Adicionar Notícia</a>
+						{% if projeto.noticias %}
+						<a class="dropdown-item"
+							href="/noticias/{{projeto.nome}}">Visualizar({{projeto.noticias|length}})</a>
+						{%else%}
+						<p class="text-center"><sub>Não há notícias!</sub></p>
+						{% endif %}
+					</div>
+				</div>
+			</li>
+
+			<li class="nav-item">
+				<div class="dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" id="dropRepositorios"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Repositórios</a>
+
+					<div class="dropdown-menu" aria-labelledby="dropRepositorios">
+						<a class="dropdown-item" href="/criar_repositorio/{{projeto.id}}">Adicionar Repositório</a>
+						{% if projeto.repositorios %}
+						<a class="dropdown-item"
+							href="/repositorios/{{projeto.nome}}">Visualizar({{projeto.repositorios|length}})</a>
+						{%else%}
+						<p class="text-center"><sub>Não há repositórios!</sub></p>
+						{% endif %}
+					</div>
+				</div>
+			</li>
+
+			<li class="nav-item">
+				<div class="dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" id="dropTarefas" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">Tarefas</a>
+
+					<div class="dropdown-menu" aria-labelledby="dropTarefas">
+						<a class="dropdown-item" href="/criar_tarefa/{{projeto.id}}">Adicionar Tarefa</a>
+						{% if projeto.tarefas %}
+						<a class="dropdown-item"
+							href="/tarefas/{{projeto.nome}}">Visualizar({{projeto.tarefas|length}})</a>
+						{%else%}
+						<p class="text-center"><sub>Não há tarefas!</sub></p>
+						{% endif %}
+					</div>
+				</div>
+			</li>
+			{% if session['user']['id'] == projeto.id_autor %}
+			<li class="nav-item">
+				<div class="dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" id="dropMembros" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false">Membros</a>
+
+					<div class="dropdown-menu" aria-labelledby="dropMembros">
+						<a class="dropdown-item" href="/adicionar_membro/{{projeto.nome}}">Adicionar
+							Membro({{projeto.usuarios|length - 1}})</a>
+					</div>
+				</div>
+			</li>
+			{% endif %}
+	</div>
+	{% else %}
+	{% if projeto.arquivos %}
+	<li class="nav-item">
+		<a class="nav-link" href="/arquivos/{{projeto.nome}}">Arquivos</a>
+	</li>
+	{% endif %}
+	{% if projeto.fotos %}
+	<li class="nav-item">
+		<a class="nav-link" href="/fotos/{{projeto.nome}}">Fotos</a>
+	</li>
+	{% endif %}
+	{% if projeto.noticias %}
+	<li class="nav-item">
+		<a class="nav-link" href="/noticias/{{projeto.nome}}">Notícias</a>
+	</li>
+	{% endif %}
+	{% if projeto.repositorios %}
+	<li class="nav-item">
+		<a class="nav-link" href="/repositorios/{{projeto.nome}}">Repositórios</a>
+	</li>
+	{% endif %}
+	{% if projeto.tarefas %}
+	<li class="nav-item">
+		<a class="nav-link" href="/tarefas/{{projeto.nome}}">Tarefas</a>
+	</li>
+	{% endif %}
+
+	{% endif %}
+	</ul>
+	</div>
+	{% block body %}{% endblock %}
+	</div>
+</body>
+<footer class="page-footer font-small blue pt-4 ">
+	<div class="container-fluid text-center text-md-left">
+		<div class="footer-copyright text-center py-3"></div>
+		{% block scripts %}{% endblock %}
+		    <script type="text/javascript" src="{{ url_for('static', filename = 'js/script.js') }}"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+			integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+		</script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+		</script>
+</footer>

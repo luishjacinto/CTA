@@ -1,0 +1,103 @@
+{% extends "layoutProjetos.jinja" %}
+
+{% block title %}
+<title>{{projeto.nome}} - Tarefas</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 visao-geral">
+            <h5>Tarefas:</h5>
+            <div class="accordion" id="tarefas">
+                {% for tarefa in projeto.tarefas %}
+                <div class="card" >
+                    <div class="card-header flx collapsed" id="tarefa_card_{{tarefa.id}}" data-toggle="collapse"
+                        data-target="#card_{{tarefa.id}}" aria-expanded="false" aria-controls="card_{{tarefa.id}}">
+                        <div class="col-6">{{tarefa.nome}}</div>
+                            <div class="col-6 text-right">
+                            {% if  'user' in session and session['user']['id']|string == projeto.id_autor|string or tarefa.pertence == True %}
+                            <a data-toggle="tooltip" data-placement="top" title="Editar tarefa" href="/editar_tarefa/{{projeto.nome}}/{{tarefa.id}}"><i
+                                    class="large material-icons">edit</i></a>
+                            {% endif%}
+                            {% if  'user' in session and session['user']['id']|string == projeto.id_autor|string or 'user' in session and session['user']['id']|string == tarefa.id_autor|string %}
+                            <a data-toggle="tooltip" data-placement="top" title="Excluir tarefa" href="/deletar_tarefa/{{projeto.nome}}/{{tarefa.id}}"><i
+                                    class="large material-icons">close</i></a>
+                            {% endif %}
+                            </div>
+                    </div>
+                    <div id="card_{{tarefa.id}}" class="collapse" aria-labelledby="tarefa_card_{{tarefa.id}}"
+                        data-parent="#tarefas">
+                        <div class="card-body row">
+                            <div class="col-8">
+                                <div class="text-left">
+                                    Prioridade:
+                                    {% if tarefa.prioridade == 0 %}
+                                    Muito baixa
+                                    {% elif tarefa.prioridade == 1 %}
+                                    Baixa
+                                    {% elif tarefa.prioridade == 2 %}
+                                    Média
+                                    {% elif tarefa.prioridade == 3 %}
+                                    Alta
+                                    {% elif tarefa.prioridade == 4 %}
+                                    Muito Alta
+                                    {% endif %}
+                                </div>
+                                <div class="text-left">
+                                    Status:
+                                    {% if tarefa.status == 0 %}
+                                    Em desenvolvimento
+                                    {% elif tarefa.status == 1 %}
+                                    Parado
+                                    {% elif tarefa.status == 2 %}
+                                    Concluido
+                                    {% endif %}
+                                </div>
+                                <div class="text-left">
+                                    Tipo:
+                                    {% if tarefa.tipo == 0 %}
+                                    Documentação
+                                    {% elif tarefa.tipo == 1 %}
+                                    Desenvolvimento
+                                    {% elif tarefa.tipo == 2 %}
+                                    Produção
+                                    {% elif tarefa.tipo == 3 %}
+                                    Outra
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <h6>Usuários:</h6>
+                                <table class="table table-striped table-light">
+                                    <tbody>
+                                        {% for usuario in tarefa.usuarios %}
+                                        <tr>
+                                            <td>{{ usuario.nome }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="text-left">Tarefa criada por: {{tarefa.autor.nome}}</div>
+                            <div class="text-left">Ultima vez alterado em: {{tarefa.data_alteracao}}</div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

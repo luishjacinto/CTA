@@ -1,0 +1,54 @@
+{% extends "layoutProjetos.jinja" %}
+
+{% block title %}
+<title>{{ projeto.nome }} - {{noticia.nome}}</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    {% if projeto.noticias|length > 1 %}
+        <div class="col-1"></div>
+    {% else %}
+        <div class="col-2"></div>
+    {% endif %}
+        <div class="col-8 row visao-geral">
+        <h5>
+            {{noticia.nome}}
+        </h5>
+        <div class="col-12 text-justify">
+            {{noticia.conteudo}}
+        </div>
+        <div class="col-12 text-right">Por:{{noticia.autor.nome}}</div>
+        <div class="col-12 text-right">Publicado em:{{noticia.data_publicacao}}</div>
+    </div>
+    {% if projeto.noticias|length > 1 %}
+        <div class="col-3 row visao-geral">
+            {% if projeto.noticias %}
+            <div class="col-12">
+                <h5>Outras notícias do projeto:</h5>
+                {% for n in range(projeto.noticias|length-1,-1,-1) %}
+                    {% if n > projeto.noticias|length-6 and projeto.noticias[n].id != noticia.id %}
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h6 class="mb-0">
+                                <a data-toggle="tooltip" data-placement="top" title="Visualizar notícia" href="/noticia/{{projeto.nome}}/{{projeto.noticias[n].nome}}">
+                                {{ projeto.noticias[n].nome }}</a>
+                            </h6>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="col-2"></div>
+    {%endif%}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

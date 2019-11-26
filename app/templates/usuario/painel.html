@@ -1,0 +1,60 @@
+{% extends "layoutBase.jinja" %}
+
+{% block title %}
+<title>CTA - Painel de usuario</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        {% if usuario.projetos[0] %}
+        <div class="col-8 offset-2 visao-geral">            
+            <a href="/criar_projeto" class="dgrid pdbot"><button type="button" class="btn btn-primary">Novo projeto</button></a>
+            <h5>Meus projetos:</h5>
+            {% for projeto in usuario.projetos|reverse %}
+            <div class="card">
+                <div class="card-header" id="">
+                    <div class="flx">
+                        <a href="/detalhes/{{projeto.nome}}">{{ projeto.nome }} </a>
+                        {% if 'user' in session and projeto.id_autor|string == session['user']['id']|string %}
+                            <i data-toggle="tooltip" data-placement="top" title="Você criou o projeto" class="f14 material-icons">person</i>
+                        {% endif %}
+                    </div>
+                    <span>Status: </span>
+                    {% if projeto.status == 0 %}
+                    <span>Em desenvolvimento</span>
+                    {% elif projeto.status == 1 %}
+                    <span>Parado</span>
+                    {% elif projeto.status == 2 %}
+                    <span>Concluido</span>
+                    {% endif %}
+                    {% if 'user' in session and session['user']['id']|string == projeto.id_autor|string %}
+                    <div class="text-right">
+                        <a data-toggle="tooltip" data-placement="top" title="Editar projeto"
+                            href="/editar_projeto/{{projeto.nome}}"><i class="large material-icons">edit</i></a>
+                        <a data-toggle="tooltip" data-placement="top" title="Excluir projeto"
+                            href="/deletar_projeto/{{projeto.id}}"><i class="large material-icons">close</i></a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="col-6 text-center offset-3 visao-geral">
+            Você não possui projetos atrelados!
+            <br>
+            <a href="/criar_projeto" class="dgrid"><button type="button" class="btn btn-primary">Novo projeto</button></a>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{{ url_for('static',filename='js/script.js') }}"></script>
+{% endblock %}

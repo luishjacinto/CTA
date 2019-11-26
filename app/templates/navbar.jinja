@@ -1,0 +1,38 @@
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	    <a class="navbar-brand" href="/inicio">CTA</a>
+	    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+	        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Alterna navegação">
+	        <span class="navbar-toggler-icon"></span>
+	    </button>
+	    {% if 'logado' in session %}
+		{% if session['logado'] == 'administrador' %}
+			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+				<div class="navbar-nav">
+					<a class="nav-item nav-link" href="/inicio">Inicio</a>
+					<a class="nav-item nav-link" href="/projetos">Projetos</a>
+					<a class="nav-item nav-link" href="/usuarios">Usuários</a>
+					<a class="nav-item nav-link" href="/sair">Sair</a>
+				</div>
+			</div>
+	    {% elif session['logado'] == 'usuario' %}
+	    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+	        <div class="navbar-nav">
+	            <a class="nav-item nav-link" href="/inicio">Inicio</a>
+	            <a class="nav-item nav-link" href="/projetos">Projetos</a>
+	            <a class="nav-item nav-link" href="/painel_usuario">Painel de usuario</a>
+	            <a class="nav-item nav-link" href="/perfil/{{session['user']['nome']}}/{{session['user']['id']}}">Perfil</a>
+	            <a class="nav-item nav-link" href="/sair">Sair</a>
+	        </div>
+	    </div>
+	    {% endif %}
+	    {% else %}
+	    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+	        <div class="navbar-nav">
+	            <a class="nav-item nav-link" href="/inicio">Inicio</a>
+	            <a class="nav-item nav-link" href="/projetos">Projetos</a>
+	            <a class="nav-item nav-link" href="/entrar">Entrar</a>
+	            <a class="nav-item nav-link" href="/cadastro">Cadastro</a>
+	        </div>
+	    </div>
+	    {% endif %}
+	</nav>

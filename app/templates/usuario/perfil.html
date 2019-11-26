@@ -1,0 +1,53 @@
+{% extends "layoutBase.jinja" %}
+{% from 'formularios.jinja' import render_field %}
+
+{% block title %}
+<title>Perfil - {{usuario.nome}}</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-8 offset-2 visao-geral pdtop">
+        <div class="card">
+            <div class="card-header flx" id="">        
+                <div class="col-6 text-left">Nome: {{usuario.nome}}</div>
+                {% if 'user' in session and session['user']['id']|string == usuario.id|string%}
+                    {% if usuario.privado == True %}
+                        <div class="col-6 text-right">
+                            <a href="/alterar_privacidade/{{usuario.id}}" data-toggle="tooltip" data-placement="top" title="Tornar perfil público"><i class="large material-icons">lock_open</i></a>
+                        </div>
+                    {% else %}
+                        <div class="col-6 text-right">
+                            <a href="/alterar_privacidade/{{usuario.id}}" data-toggle="tooltip" data-placement="top" title="Tornar perfil privado"><i class="large material-icons">lock_outline</i></a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="card-body" id="">
+                <span>Email: {{usuario.email}}</span>
+                <br>
+                <span>Nascido em: {{usuario.data_nascimento}}</span>
+            </div>
+            {% if usuario.projetos[0] %}
+            <div class="card-footer">
+                <h6>Projetos vinculados:</h6>
+                {% for projeto in usuario.projetos %}
+                    <div class="text-left"><a href="/detalhes/{{projeto.nome}}">{{projeto.nome}}</a>
+                    {% if projeto.id_autor == usuario.id %}
+                        <i data-toggle="tooltip" data-placement="top" title="Criado por {{usuario.nome}}" class="f14 material-icons">person</i>
+                    {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{{ url_for('static',filename='js/script.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "layoutBase.jinja" %}
+{% from 'formularios.jinja' import render_field %}
+
+{% block title %}
+<title>CTA - Projetos</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row pd1">
+        {% if projetos %}
+        <div class="col-12 visao-geral">
+            <h5>Projetos:</h5>
+            <form class="dgrid col-6 offset-3" action="/projetos" method="POST">          
+                <div class="input-group">
+                    {{ form.csrf_token }}
+                    {{form.busca}}
+                    <div class="input-group-append">
+                    {{form.submit}}
+                    </div>
+                </div>
+            </form>                
+            <h6 class="text-right">Buscando por: {{busca}}</h6>
+            <table class="table table-striped table-light">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Numero de participantes</th>
+                        <th scope="col">Status</th>
+                        {% if 'logado' in session and session['logado'] == 'administrador' %}
+                        <th></th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for projeto in projetos|reverse %}
+                    <tr>
+                        <td><a href="/detalhes/{{projeto.nome}}">{{ projeto.nome }}</a></td>
+                        <td>{{ projeto.usuarios|length }}</td>
+                        {% if projeto.status == 0 %}
+                        <td>Em desenvolvimento</td>
+                        {% elif projeto.status == 1 %}
+                        <td>Parado</td>
+                        {% elif projeto.status == 2 %}
+                        <td>Concluido</td>
+                        {% endif %}
+                        {% if 'logado' in session and session['logado'] == 'administrador' %}
+                            <td>
+                                <div class="dropdown dropleft">
+                                    <a role="button" id="dropProjeto" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false"><i data-toggle="tooltip" data-placement="top" title="Mais opções" class=" material-icons">more_vert</i></a>
+                
+                                    <div class="dropdown-menu" aria-labelledby="dropProjeto">
+                                        <a class="dropdown-item" href="/deletar_projeto/{{projeto.id}}" >Deletar projeto <i class=" edit material-icons">close</i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% else %}
+        <div class="col-6 offset-3 text-center visao-geral">
+            Nenhum projeto foi adicionado a plataforma!
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{{ url_for('static',filename='js/script.js') }}"></script>
+{% endblock %}

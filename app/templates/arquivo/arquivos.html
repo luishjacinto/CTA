@@ -1,0 +1,41 @@
+{% extends "layoutProjetos.jinja" %}
+
+{% block title %}
+    <title>{{projeto.nome}} - Arquivos</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 visao-geral">
+                <h5>Arquivos:</h5>
+                        {% for arquivo in projeto.arquivos|reverse %}
+                        </tr>
+                        <div class="card">
+                            <div class="card-header" id="">
+                                <h6 class="mb-0">
+                                    <a href="/download/{{arquivo.caminho}}" target="_blank">{{ arquivo.nome }}</a>
+                                </h6>
+                                    <div class="text-left">Publicado em: {{arquivo.data_publicacao}}</div>
+                                    {% if  'user' in session and session['user']['id']|string == projeto.id_autor|string or 'user' in session and session['user']['id']|string == arquivo.id_usuario|string %}
+                                        <div class="text-right">
+                                            <a data-toggle="tooltip" data-placement="top" title="Deletar arquivo"  href="/deletar_arquivo/{{projeto.nome}}/{{arquivo.id}}"><i class="large material-icons">close</i></a>
+                                        </div>
+                                    {% endif%}
+                            </div>
+                        </div>
+                        {% endfor %}
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+

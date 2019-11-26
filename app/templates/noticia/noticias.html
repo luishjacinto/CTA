@@ -1,0 +1,45 @@
+{% extends "layoutProjetos.jinja" %}
+
+{% block title %}
+    <title>{{projeto.nome}} - Notícias</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 visao-geral">
+                <h5>Notícias</h5>
+                {% if projeto.noticias %}
+
+                            {% for noticia in projeto.noticias|reverse %}                        
+                                <div class="card">
+                                    <div class="card-header" id="">
+                                        <h6 class="mb-0">
+                                            <a href="/noticia/{{projeto.nome}}/{{noticia.nome}}">{{ noticia.nome }}</a>
+                                        </h6>
+                                        <div class="text-left">Por: {{noticia.autor.nome}}</div>
+                                        <div class="text-left">Publicado em: {{noticia.data_publicacao}}</div>
+                                        {% if 'user' in session and session['user']['id']|string == noticia.id_usuario|string or 'user' in session and session['user']['id'] == projeto.id_autor %}
+                                            <div class="text-right">
+                                                <a data-toggle="tooltip" data-placement="top" title="Editar notícia"  href="/editar_noticia/{{projeto.nome}}/{{noticia.id}}"><i class="large material-icons">edit</i></a>
+                                                <a data-toggle="tooltip" data-placement="top" title="Exluir notícia" href="/deletar_noticia/{{projeto.nome}}/{{noticia.id}}"><i class="large material-icons">close</i></a>
+                                            </div>
+                                        {% endif%}
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                {% endif %}
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+

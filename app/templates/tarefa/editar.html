@@ -1,0 +1,68 @@
+{% extends "layoutProjetos.jinja" %}
+{% from 'formularios.jinja' import render_field2 %}
+
+{% block title %}
+    <title>{{projeto.nome}} - Editar tarefa</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid row">
+        <div class="row offset-1 col-10 visao-geral">
+            {% if 'user' in session and session['user']['id']|string == tarefa.id_autor|string or 'user' in session and session['user']['id']|string == projeto.id_autor|string %}
+                <div class="col-6 text-left">
+            {% else %}
+                <div class="col-6 offset-4 text-left">
+            {% endif %}
+                <div class="row pd1">
+                    <div class="col-12 form-title">Editar tarefa</div>
+                    <form class="col-8 dgrid offset-2" action="/editar_tarefa/{{projeto.nome}}/{{tarefa.id}}" method="POST">
+                        {{ form.csrf_token }}
+                        <div class="form-group">{{ render_field2(form.nome,tarefa.nome) }}</div>
+                        <div class="form-group">{{ render_field2(form.prioridade,tarefa.prioridade) }}</div>
+                        <div class="form-group">{{ render_field2(form.status,tarefa.status) }}</div>
+                        <div class="form-group">{{ render_field2(form.tipo,tarefa.tipo) }}</div>
+                        {{form.submit}}
+                    </form>
+                </div>
+            </div>
+            {% if 'user' in session and session['user']['id']|string == tarefa.id_autor|string or 'user' in session and session['user']['id']|string == projeto.id_autor|string %}
+            <div class="col-6 ">
+                    <div class="col-12 form-title">Gerenciar membros</div>
+                    <table class="table table-striped table-light">
+                        <tbody>
+                            {% if projeto.usuarios[1] %}
+                                {% for usuario in projeto.usuarios %}
+                                    {% if 'user' in session and usuario.id != session['user']['id']%}
+                                    <tr>
+                                        <td>{{ usuario.nome }}</td>
+                                        {% if usuario not in tarefa.usuarios %}
+                                            {% if  'user' in session and session['user']['id']|string == projeto.id_autor|string or 'user' in session and session['user']['id']|string == tarefa.id_autor|string %}
+                                                <td><a data-toggle="tooltip" data-placement="top" title="Adicionar membro" href="/adicionar_membro_tarefa/{{projeto.nome}}/{{tarefa.id}}/{{usuario.id}}"><i class="large material-icons">add</i></a></td>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if usuario in tarefa.usuarios and usuario.id != tarefa.id_autor %}
+                                            {% if  'user' in session and session['user']['id']|string == projeto.id_autor|string or 'user' in session and session['user']['id']|string == tarefa.id_autor|string  %}
+                                                <td><a data-toggle="tooltip" data-placement="top" title="Remover membro" href="/remover_membro_tarefa/{{projeto.nome}}/{{tarefa.id}}/{{usuario.id}}"><i class="large material-icons">close</i></a></td>
+                                            {% endif %}
+                                        {% endif %}
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                            <div class="col-12 text-center">Não há outros membros no projeto!</div>
+                            {% endif %}
+                        </tbody>
+                    </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static',filename='js/script.js') }}"></script>
+{% endblock %}
+

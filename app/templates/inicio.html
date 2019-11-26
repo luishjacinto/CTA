@@ -1,0 +1,25 @@
+{% extends "layoutBase.jinja" %}
+
+{% block title %}
+    <title>CTA - Início</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid inicio">
+<div class="row">
+    <div class="text-justify intro col-8 offset-2">Bem vindo ao Centro de Tecnologia Acadêmica. Fazendo uso da filosofia de tecnologias livres, 
+        aqui você pode disponibilizar a documentação do seu projeto de forma rapida e prática ao mundo. Venha conferir nossos projetos.</div>
+    <div class="text-center col-8 offset-2 dgrid pdbot5">
+        <a href="/projetos" class=" font-w btn btn-primary ">Projetos</a> 
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static',filename='js/script.js') }}"></script>
+{% endblock %}
+

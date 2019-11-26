@@ -1,0 +1,100 @@
+{% extends "layoutProjetos.jinja" %}
+
+{% block title %}
+<title>{{ projeto.nome }} - Visão geral</title>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    {% if projeto.noticias or projeto.fotos %}
+    <div class="col-1"></div>
+    <div class="col-7 row visao-geral">
+    {% else %}
+    <div class="col-2"></div>
+    <div class="col-8 row visao-geral">
+    {% endif %}
+    <div class="col-12">
+            <h5>Visão geral:</h5>
+            <h5>
+                Status:
+                {% if projeto.status == 0 %}
+                Em desenvolvimento
+                {% elif projeto.status == 1 %}
+                Parado
+                {% elif projeto.status == 2 %}
+                Concluido
+                {% endif %}
+            </h5>
+            <p>{{projeto.descricao}}</p>
+        </div>
+        <div class="col-12">
+            <h5>Membros:</h5>
+            <table class="table table-striped table-light">
+                <tbody>
+                    {% for usuario in projeto.usuarios %}
+                        <tr>
+                            <td>
+                            {% if usuario.privado == False %}
+                                <a data-toggle="tooltip" data-placement="top" title="Visualizar usuário" href="/perfil/{{usuario.nome}}/{{usuario.id}}">{{ usuario.nome }}</a>
+                            {% else %}
+                                {{ usuario.nome }}<i data-toggle="tooltip" data-placement="top" title="Perfil privado" class="f14 material-icons">lock</i>
+                            {% endif %}
+                            {% if  projeto.id_autor == usuario.id %}
+                            <i data-toggle="tooltip" data-placement="top" title="Criador do projeto" class="f14 material-icons">person</i>
+                            {% endif %}
+                            {% if  'user' in session and session['user']['id']|string == projeto.id_autor|string and session['user']['id'] != usuario.id %}
+                                <a data-toggle="tooltip" data-placement="top" title="Remover membro"  href="/remover_membro/{{projeto.nome}}/{{usuario.id}}"><i class="large edit material-icons">close</i></a>
+                            {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if projeto.noticias or projeto.fotos %}
+        </div>
+        <div class="col-3 visao-geral row">
+            {% if projeto.fotos %}
+            <div class="col-12">
+                <h5>Ultimas Fotos:</h5>
+                <div class="fotos-detalhes row">
+                    {% for n in range(projeto.fotos|length-1,-1,-1) %}
+                    {% if n > projeto.fotos|length-5 %}
+                        <div class="col-12 foto">
+                            <img src="{{ url_for('static', filename='uploads/fotos/'+projeto.fotos[n].caminho) }}" alt="">
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% if projeto.noticias %}
+            <div class="col-12 pdtop">
+                <h5>Ultimas notícias:</h5>
+                {% for n in range(projeto.noticias|length-1,-1,-1) %}
+                {% if n > projeto.noticias|length-6 %}
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h6 class="mb-0">
+                            <a data-toggle="tooltip" data-placement="top" title="Visualizar notícia"  href="/noticia/{{projeto.nome}}/{{projeto.noticias[n].nome}}">
+                            {{ projeto.noticias[n].nome }}</a>
+                        </h6>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        </div>
+        <div class="col-2"></div>
+        {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

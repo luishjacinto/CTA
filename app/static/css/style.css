@@ -1,0 +1,287 @@
+body {
+    font-family: sans-serif;
+    background: #eee;
+}
+
+a,h1,h2 {
+    color: #377BA8;
+}
+
+h1,h2 {
+    font-family: 'Georgia', serif;
+    margin: 0;
+}
+
+h1 {
+    border-bottom: 2px solid #eee;
+}
+
+h2 {
+    font-size: 1.2em;
+}
+
+.page {
+    margin: 2em auto;
+    width: 35em;
+    border: 5px solid #ccc;
+    padding: 0.8em;
+    background: white;
+}
+
+.entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.entries li {
+    margin: 0.8em 1.2em;
+}
+
+.entries li h2 {
+    margin-left: -1em;
+}
+
+.add-entry {
+    font-size: 0.9em;
+    border-bottom: 1px solid #ccc;
+}
+
+.add-entry dl {
+    font-weight: bold;
+}
+
+.metanav {
+    text-align: right;
+    font-size: 0.8em;
+    padding: 0.3em;
+    margin-bottom: 1em;
+    background: #fafafa;
+}
+
+.flash {
+    background: #CEE5F5;
+    padding: 0.5em;
+    border: 1px solid #AACBE2;
+}
+
+.error {
+    background: #F0D6D6;
+    padding: 0.5em;
+}
+
+.card-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--ntl-G);
+    height: 270px;
+}
+
+.card-img-top{
+    width: auto !important;
+    max-height: 270px;
+    max-width: 100%;
+}
+
+.flx{
+    display: flex !important;
+}
+
+.just{
+    display: contents !important;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.mg10{
+    margin: 10px;
+}
+
+.foto-card{
+    padding: 0!important;
+}
+
+.scroll{
+    max-height: 80px;
+    overflow-y: scroll
+}
+
+.f14{
+    font-size: 14px !important;
+    line-height: unset !important;
+    margin-left: 2px;
+}
+
+.fotos-detalhes{
+    display: flex !important;
+    justify-content: space-between;
+    max-height: 270px !important;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.foto{
+    padding: 0 !important;
+    height: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.foto img{
+    width: auto !important;
+    max-height: 170px;
+    max-width: 100%;
+}
+
+html, body{
+    max-width: 100vw;
+    background-color: var(--ntl-lG) !important;
+    overflow-x: hidden;
+}
+
+:root{
+    --ntl-lG : rgb(219, 219, 219);
+    --ntl-G : rgb(158, 158, 158);
+    --ntl-lR : rgb(211, 95, 95);
+    --ntl-R : rgb(160,44,44);
+    --ntl-lB : rgb(55,113,200);
+    --ntl-B : rgb(33,68,120);
+}
+
+.flash{
+    background-color: white;
+    border-radius: 15px;
+}
+
+.mg0{
+    margin: 0 !important;
+}
+
+.bg-light{
+    background-color: white !important;
+}
+
+.logado{
+    border-radius: 0px 0px 0px 18px;
+    background-color: white;
+    padding: 10px;
+}
+
+a{
+    color: black !important
+}
+
+.nfooter{
+    color: black;
+    margin-top: 1em;
+    bottom: 0;
+    background-color: var(--ntl-G);
+    width: 100%;
+}
+
+.mb1em{
+    margin-bottom: 1em;
+}
+
+.nav-projeto{
+    background-color: white !important;
+    border-radius: 15px!important;
+    display: inline-flex !important;
+}
+
+.title-projeto{
+    padding: 20px;
+    border-radius: 20px;
+    background: white;
+    margin-top: 0.5em;
+}
+
+.font-w{
+    color: white !important;
+    font-weight: 800 !important;
+}
+
+.cdb{
+    height: 180px !important;
+}
+
+.cda{
+    height: 130px;
+}
+
+.mgt{
+    height: 50px
+}
+
+.edit{
+    position: relative !important;
+    top: 7px !important;
+}
+
+.visao-geral{
+    padding-top: 1em;
+    background-color: white;
+    border-radius: 15px;
+    margin-top: 1em;
+    padding-bottom: 1em;
+}
+
+.form-title{
+    font-weight: 600 !important;
+    padding-bottom: 1em !important;
+    text-align: center !important;
+}
+
+.fotos{
+    padding-top: 1em;
+    background-color: var(--ntl-G) !important;
+    border-radius: 15px;
+    margin-top: 1em;
+    padding-bottom: 1em;
+    margin-top: 1em;
+}
+
+i{
+    -webkit-touch-callout: none;  /* iPhone OS, Safari */
+    -webkit-user-select: none;    /* Chrome, Safari 3 */
+    -khtml-user-select: none;     /* Safari 2 */
+    -moz-user-select: none;       /* Firefox */
+    -ms-user-select: none;        /* IE10+ */
+    user-select: none;  
+}
+
+.inicio{
+    background-image: url('background.jpg');
+    background-repeat: no-repeat;
+    box-shadow: inset 0px 0px 15px var(--ntl-lG);
+    margin-top: 2em;
+}
+.intro{
+    font-weight: 800;
+    font-size: 24px;
+    color: white;
+    padding-top: 10em;
+    margin-bottom: 2em;
+}
+
+.pdtop{
+    padding-top: 1em;
+}
+
+.pdbot5{
+    padding-bottom: 5em;
+}
+
+.pd1{
+    padding: 1em
+}
+
+.pdbot{
+    padding-bottom: 1em;
+}
+
+.dgrid{
+    display: grid !important;
+}
